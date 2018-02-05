@@ -6,6 +6,7 @@ import axios from "axios";
 import "./Home.css";
 import { Carousel, WhiteSpace, WingBlank } from "antd-mobile";
 
+
 function MyBody(props) {
   return (
     <div className="am-list-body my-body courses">
@@ -303,7 +304,9 @@ class Home extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
+       
       </div>
+      
     );
   }
 }
