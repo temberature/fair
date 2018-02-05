@@ -1,0 +1,123 @@
+/* .mint-tabbar {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#d9d9d9),
+    color-stop(50%, #d9d9d9),
+    color-stop(50%, transparent)
+  );
+  background-image: linear-gradient(
+    180deg,
+    #d9d9d9,
+    #d9d9d9 50%,
+    transparent 50%
+  );
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  position: relative;
+  background-color: #fafafa;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  text-align: center;
+}
+.mint-tabbar > .mint-tab-item.is-selected {
+  background-color: #eaeaea;
+  color: #26a2ff;
+}
+.mint-tabbar.is-fixed {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1;
+}
+.mint-tab-item {
+    display: block;
+    padding: 7px 0;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-decoration: none
+}
+.mint-tab-item-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0 auto 5px
+}
+.mint-tab-item-icon:empty {
+    display: none
+}
+.mint-tab-item-icon > * {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+.mint-tab-item-label {
+    color: inherit;
+    font-size: 12px;
+    line-height: 1
+}
+.mint-tab-container-item {
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
+    width: 100%
+}
+.mint-tab-container {
+    overflow: hidden;
+    position: relative;
+}
+.mint-tab-container .swipe-transition {
+    -webkit-transition: -webkit-transform 150ms ease-in-out;
+    transition: -webkit-transform 150ms ease-in-out;
+    transition: transform 150ms ease-in-out;
+    transition: transform 150ms ease-in-out, -webkit-transform 150ms ease-in-out;
+}
+.mint-tab-container-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.mint-tabbar .mint-tab-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-top: 1px solid #cacaca;
+  padding: 16px 0 17px;
+  color: #c0cbde;
+  background: #fff;
+}
+.mint-tabbar .mint-tab-item .mint-tab-item-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: initial;
+  height: initial;
+  margin: 0 4px 0 0;
+}
+.mint-tabbar .mint-tab-item .mint-tab-item-icon img {
+  width: initial;
+  height: 16px;
+}
+.mint-tabbar .mint-tab-item .mint-tab-item-label {
+  font-size: 16px;
+}
+.mint-tabbar .mint-tab-item:first-child {
+  border-right: 1px solid #cacaca;
+}
+.mint-tabbar .mint-tab-item.is-selected {
+  color: #0b0b0b;
+  background: #fff;
+} */
