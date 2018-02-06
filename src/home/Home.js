@@ -1,11 +1,15 @@
 /* eslint no-dupe-keys: 0, no-mixed-operators: 0 */
-import React, { Component } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import { ListView } from "antd-mobile";
+import { ListView, Carousel } from "antd-mobile";
 import axios from "axios";
-import styles from "./Home.less";
-import { Carousel, WhiteSpace, WingBlank } from "antd-mobile";
-
+import "./Home.less";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  NavLink
+} from "react-router-dom";
 
 function MyBody(props) {
   return (
@@ -166,23 +170,14 @@ class Home extends React.Component {
         period = 2;
       }
       function EnrollingPeriod(props) {
-        return <img
-        src={require('./assets/period_enrolling.png')}
-        alt=""
-      />;
+        return <img src={require("./assets/period_enrolling.png")} alt="" />;
       }
-      
+
       function OngoingPeriod(props) {
-        return <img
-        src={require('./assets/period_ongoing.png')}
-        alt=""
-      />;
+        return <img src={require("./assets/period_ongoing.png")} alt="" />;
       }
       function FinishPeriod(props) {
-        return <img
-        src={require('./assets/period_finish.png')}
-        alt=""
-      />;
+        return <img src={require("./assets/period_finish.png")} alt="" />;
       }
       function Period(props) {
         const period = props.period;
@@ -193,11 +188,9 @@ class Home extends React.Component {
         } else if (period === 2) {
           return <FinishPeriod />;
         }
-        
       }
       return (
         <li key={course.course_id} className="course">
-          {/* <img className="banner" src={require(course.event_frontcover_filepath)} /> */}
           <img
             width="87"
             height="130"
@@ -219,7 +212,7 @@ class Home extends React.Component {
               <label htmlFor="">人数：</label>
               限{course.max_attendence}人
             </div>
-            
+
             <div className="period">
               <Period period={period} />
             </div>
@@ -229,16 +222,8 @@ class Home extends React.Component {
     };
 
     return (
-      <div className="home">
-        <Carousel
-          autoplay={false}
-          infinite
-          selectedIndex={1}
-          beforeChange={(from, to) =>
-            console.log(`slide from ${from} to ${to}`)
-          }
-          afterChange={index => console.log("slide to", index)}
-        >
+      <div id="home">
+        <Carousel autoplay={false} infinite selectedIndex={0}>
           {[
             "http://www.boluomi.org/assets/images/banner1.png",
             "http://www.boluomi.org/assets/images/banner2.jpg",
@@ -267,24 +252,28 @@ class Home extends React.Component {
           dataSource={this.state.dataSource}
           renderHeader={() => (
             <header className="tabs">
-              <div className="tabs-list">
-                <a onClick={this.handleClick}>
-                  <span>全部</span>
-                </a>
-                <a>
-                  <span>报名中</span>
-                </a>
-                <a>
-                  <span>哲学</span>
-                </a>
-                <a>
-                  <span>艺术</span>
-                </a>
-                <a>
-                  <span>历史</span>
-                </a>
-                <a>其他</a>
-              </div>
+              <NavLink to="/"
+                activeClassName="is-selected" onClick={this.handleClick}>
+                <span>全部</span>
+              </NavLink>
+              <NavLink to="/"
+                activeClassName="is-selected">
+                <span>报名中</span>
+              </NavLink>
+              <NavLink to="/"
+                activeClassName="is-selected">
+                <span>哲学</span>
+              </NavLink>
+              <NavLink to="/"
+                activeClassName="is-selected">
+                <span>艺术</span>
+              </NavLink>
+              <NavLink to="/"
+                activeClassName="is-selected">
+                <span>历史</span>
+              </NavLink>
+              <NavLink to="/"
+                activeClassName="is-selected">其他</NavLink>
             </header>
           )}
           renderFooter={() => (
@@ -304,9 +293,7 @@ class Home extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
-       
       </div>
-      
     );
   }
 }

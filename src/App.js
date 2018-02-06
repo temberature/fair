@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styles from "./App.less";
+import React from "react";
+import "./App.less";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,14 +8,7 @@ import {
 } from "react-router-dom";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
-import CSSModules from "react-css-modules";
 import classNames from "classnames/bind";
-
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
 
 const Topic = ({ match }) => (
   <div>
@@ -46,13 +39,8 @@ const Topics = ({ match }) => (
     />
   </div>
 );
-let cx = classNames.bind(styles);
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
-  }
   render() {
     return (
       <div>
