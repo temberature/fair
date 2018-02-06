@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Demo from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function App(props) {
+    return (
+        <main>
+            <Demo />
+        </main>        
+    )
+}
+
+ReactDOM.render(React.createElement(App), document.getElementById('root'))
 registerServiceWorker();

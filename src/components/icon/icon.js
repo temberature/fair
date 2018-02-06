@@ -1,4 +1,5 @@
 import React from "react";
+import "./Icon.css";
 
 const CustomIcon = ({ type, className = "", size = "md", ...restProps }) => (
   <svg
