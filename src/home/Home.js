@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { ListView } from "antd-mobile";
 import axios from "axios";
-import "./Home.css";
+import styles from "./Home.less";
 import { Carousel, WhiteSpace, WingBlank } from "antd-mobile";
 
 
