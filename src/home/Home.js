@@ -10,6 +10,8 @@ import {
   Link,
   NavLink
 } from "react-router-dom";
+import Moment from "moment";
+import Period from "../components/period/Period";
 
 function MyBody(props) {
   return (
@@ -160,35 +162,7 @@ class Home extends React.Component {
         index = this.state.courses.length - 1;
       }
       const course = this.state.courses[index--];
-      const now = new Date().getTime();
-      let period;
-      if (now < course.event_register_deadline) {
-        period = 0;
-      } else if (now > course.event_start_date && now < course.event_end_date) {
-        period = 1;
-      } else if (now > course.event_end_date) {
-        period = 2;
-      }
-      function EnrollingPeriod(props) {
-        return <img src={require("./assets/period_enrolling.png")} alt="" />;
-      }
 
-      function OngoingPeriod(props) {
-        return <img src={require("./assets/period_ongoing.png")} alt="" />;
-      }
-      function FinishPeriod(props) {
-        return <img src={require("./assets/period_finish.png")} alt="" />;
-      }
-      function Period(props) {
-        const period = props.period;
-        if (period === 0) {
-          return <EnrollingPeriod />;
-        } else if (period === 1) {
-          return <OngoingPeriod />;
-        } else if (period === 2) {
-          return <FinishPeriod />;
-        }
-      }
       return (
         <li key={course.course_id} className="course">
           <img
@@ -202,7 +176,7 @@ class Home extends React.Component {
             <div className="name">{course.title}</div>
             <div className="time">
               <label htmlFor="">时间：</label>
-              {course.event_start_date}
+              {Moment(course.event_start_date).format("YYYY/MM/DD")}
             </div>
             <div className="address">
               <label htmlFor="">地点：</label>
@@ -214,7 +188,14 @@ class Home extends React.Component {
             </div>
 
             <div className="period">
-              <Period period={period} />
+              <Period
+                course={course}
+                images={[
+                  require("./assets/period_enrolling.png"),
+                  require("./assets/period_ongoing.png"),
+                  require("./assets/period_finish.png")
+                ]}
+              />
             </div>
           </div>
         </li>
@@ -252,28 +233,28 @@ class Home extends React.Component {
           dataSource={this.state.dataSource}
           renderHeader={() => (
             <header className="tabs">
-              <NavLink to="/"
-                activeClassName="is-selected" onClick={this.handleClick}>
+              <NavLink
+                to="/"
+                activeClassName="is-selected"
+                onClick={this.handleClick}
+              >
                 <span>全部</span>
               </NavLink>
-              <NavLink to="/"
-                activeClassName="is-selected">
+              <NavLink to="/" activeClassName="is-selected">
                 <span>报名中</span>
               </NavLink>
-              <NavLink to="/"
-                activeClassName="is-selected">
+              <NavLink to="/" activeClassName="is-selected">
                 <span>哲学</span>
               </NavLink>
-              <NavLink to="/"
-                activeClassName="is-selected">
+              <NavLink to="/" activeClassName="is-selected">
                 <span>艺术</span>
               </NavLink>
-              <NavLink to="/"
-                activeClassName="is-selected">
+              <NavLink to="/" activeClassName="is-selected">
                 <span>历史</span>
               </NavLink>
-              <NavLink to="/"
-                activeClassName="is-selected">其他</NavLink>
+              <NavLink to="/" activeClassName="is-selected">
+                其他
+              </NavLink>
             </header>
           )}
           renderFooter={() => (

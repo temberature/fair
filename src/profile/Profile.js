@@ -1,7 +1,7 @@
 import React from "react";
 import { List, Icon } from "antd-mobile";
 import "./Profile.less";
-import OAIcon from '../components/icon/Icon';
+import OAIcon from "../components/icon/Icon";
 
 const Item = List.Item;
 
@@ -19,28 +19,28 @@ class Profile extends React.Component {
         <main>
           <List>
             <Item
-              thumb={<OAIcon type={require('./assets/icon_course.svg')} />}
+              thumb={<OAIcon type={require("./assets/icon_course.svg")} />}
               arrow="horizontal"
               onClick={() => {}}
             >
               我的活动
             </Item>
             <Item
-              thumb={<OAIcon type={require('./assets/icon_invite.svg')} />}
+              thumb={<OAIcon type={require("./assets/icon_invite.svg")} />}
               onClick={() => {}}
               arrow="horizontal"
             >
               邀请好友
             </Item>
             <Item
-              thumb={<OAIcon type={require('./assets/icon_about.svg')} />}
+              thumb={<OAIcon type={require("./assets/icon_about.svg")} />}
               arrow="horizontal"
               onClick={() => {}}
             >
               关于OA
             </Item>
             <Item
-              thumb={<OAIcon type={require('./assets/icon_setting.svg')} />}
+              thumb={<OAIcon type={require("./assets/icon_setting.svg")} />}
               onClick={() => {}}
               arrow="horizontal"
             >
