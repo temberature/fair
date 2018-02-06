@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./App.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
 import CSSModules from "react-css-modules";
@@ -44,10 +44,12 @@ const Topics = ({ match }) => (
 let cx = classNames.bind(styles);
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
   render() {
-    let className = cx('mint-tab-item', {
-      'is-selected': true
-    });
+    
     return (
       <div>
         <Router>
@@ -55,8 +57,8 @@ class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route path="/profile" component={Profile} />
             <Route path="/topics" component={Topics} />
-            <div className={styles['mint-tabbar'] + ' ' + styles['is-fixed']}>
-              <Link to="/" className={className}>
+            <div className={styles["mint-tabbar"] + " " + styles["is-fixed"]}>
+              <NavLink to="/" activeClassName={styles["is-selected"]} className={styles["mint-tab-item"]}>
                 <div className="mint-tab-item-icon">
                   <svg
                     version="1.1"
@@ -71,10 +73,10 @@ class App extends React.Component {
                     />
                   </svg>
                 </div>{" "}
-                <div className={styles['mint-tab-item-label']}> OA学院</div>
-              </Link>{" "}
-              <Link to="/profile" className={styles['mint-tab-item']}>
-                <div className={styles['mint-tab-item-icon']}>
+                <div className={styles["mint-tab-item-label"]}> OA学院</div>
+              </NavLink>{" "}
+              <NavLink to="/profile" activeClassName={styles["is-selected"]} className={styles["mint-tab-item"]}>
+                <div className={styles["mint-tab-item-icon"]}>
                   <svg
                     version="1.1"
                     role="presentation"
@@ -88,8 +90,8 @@ class App extends React.Component {
                     />
                   </svg>
                 </div>{" "}
-                <div className={styles['mint-tab-item-label']}> 个人中心</div>
-              </Link>
+                <div className={styles["mint-tab-item-label"]}> 个人中心</div>
+              </NavLink>
             </div>
           </div>
         </Router>
