@@ -2,7 +2,8 @@ import React from "react";
 import { List, Icon } from "antd-mobile";
 import "./Profile.less";
 import OAIcon from "../components/icon/Icon";
-import axios from "axios";
+import axios from "../utils/customAxios";
+import WebConstants from '../web_constants'
 
 const Item = List.Item;
 
@@ -16,8 +17,11 @@ class Profile extends React.Component {
 
     axios
       .get(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RetrieveMyProfileDataServlet?event_id=" +
-          this.props.match.params.id
+        "/RetrieveMyProfileDataServlet", {
+          params: {
+            [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
+          }
+        }
       )
       .then(response => {
         console.log(response);

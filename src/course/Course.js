@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Moment from "moment";
-import axios from "axios";
+import axios from "../utils/customAxios";
 import { Button, List } from "antd-mobile";
 import OAIcon from "../components/icon/Icon";
 import Period from "../components/period/Period";
@@ -22,7 +22,7 @@ export default class Course extends React.Component {
 
     axios
       .get(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RetrieveEventByEventIdServlet?event_id=" +
+        "/RetrieveEventByEventIdServlet?event_id=" +
           this.props.match.params.id
       )
       .then(response => {
@@ -133,7 +133,7 @@ export default class Course extends React.Component {
               已报名
             </Button>
           ) : (
-            <Link to="./entryForm" append>
+            <Link to={this.props.match.url + "/entryForm"}>
               <Button
                 className="enrollBtn"
                 type="primary"

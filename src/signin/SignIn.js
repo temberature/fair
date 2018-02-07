@@ -3,24 +3,32 @@ import { Link } from "react-router-dom";
 import { Button, List, InputItem, WhiteSpace, Toast } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./SignIn.less";
-import axios from "axios";
+import axios from "../utils/customAxios";
+import jsSHA from 'jssha'
+import WebConstants from '../web_constants'
 
 class SignIn extends React.Component {
   state = {
-    user_mobilephone_number: "",
-    password: "",
-    hasError: false
+    user_mobilephone_number: "15910707069",
+    password: "tember158569",
+    hasPhoneError: false,
+    hasPasswordError: false
   };
   signin = () => {
+    const shaObj = new jsSHA('SHA-256', 'TEXT');
+    shaObj.update(this.state.password);
+    const encryptedPassword = shaObj.getHash('HEX');
     axios
       .post(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/LoginServlet?user_mobilephone_number=" +
-          this.state.user_mobilephone_number
+        "/LoginServlet?user_mobilephone_number=" +
+          this.state.user_mobilephone_number.replace(/\s/g, '') + '&password=' + encryptedPassword
       )
       .then(response => {
         console.log(response.data.retdesc);
-        if (response.data.login_success) {
+        const loginResult = response.data;
+        if (loginResult.login_success) {
           Toast.info("登录成功～");
+          sessionStorage.setItem(WebConstants.TOKEN, loginResult[WebConstants.TOKEN]);
         }
       });
   }
@@ -46,11 +54,11 @@ class SignIn extends React.Component {
   onPasswordChange = password => {
     if (password.replace(/\s/g, "").length < 11) {
       this.setState({
-        hasError: true
+        hasPasswordError: true
       });
     } else {
       this.setState({
-        hasError: false
+        hasPasswordError: false
       });
     }
     this.setState({

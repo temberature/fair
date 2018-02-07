@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ListView, Carousel } from "antd-mobile";
-import axios from "axios";
+import axios from "../utils/customAxios";
 import "./Home.less";
 import {
   BrowserRouter as Router,
@@ -79,8 +79,7 @@ class Home extends React.Component {
     // simulate initial Ajax
     axios
       .get(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RetrieveEventServlet?page=" +
-          this.state.pageIndex
+        "/RetrieveEventServlet"
       )
       .then(response => {
         console.log(response);
@@ -123,7 +122,7 @@ class Home extends React.Component {
     }));
     axios
       .get(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RetrieveEventServlet?page=" +
+        "/RetrieveEventServlet?page=" +
           this.state.pageIndex
       )
       .then(response => {
@@ -169,7 +168,7 @@ class Home extends React.Component {
             width="87"
             height="130"
             className="cover"
-            src={course.event_frontcover_filepath}
+            src={'https://www.jieshu.mobi:8181' + course.event_frontcover_filepath}
             alt=""
           />
           <div className="info">

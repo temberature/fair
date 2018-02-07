@@ -4,7 +4,6 @@ import { Button, List, InputItem, WhiteSpace, Toast } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./SignUp.less";
 import axios from "axios";
-
 class SignIn extends React.Component {
   state = {
     user_mobilephone_number: "",

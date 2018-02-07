@@ -10,13 +10,14 @@ import {
   TextareaItem
 } from "antd-mobile";
 import "./EntryForm.less";
-import axios from "axios";
+import axios from "../utils/customAxios";
 import {
   BrowserRouter as Router,
   Route,
   Link,
   NavLink
 } from "react-router-dom";
+import WebConstants from '../web_constants'
 
 const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
   window.navigator.userAgent
@@ -57,9 +58,12 @@ class EntryForm extends React.Component {
   };
   enroll = () => {
     axios
-      .post(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/ApplyEventServlet?event_id="
-      )
+      .get("/ApplyEventServlet", {
+        params: {
+          event_id: this.props.match.params.id,
+          [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
+        }
+      })
       .then(response => {
         console.log(response.data.retdesc);
         this.setState({ enrolled: true });
