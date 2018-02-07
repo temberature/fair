@@ -15,6 +15,7 @@ import EntryForm from "./entryform/EntryForm";
 import { ActionSheet, WingBlank, Button, Toast } from "antd-mobile";
 import "./App.less";
 import SignIn from "./signin/SignIn";
+import SignUp from "./signup/SignUp";
 // import MyCourses from "./mycourses/MyCourses";
 
 const Topic = ({ match }) => (
@@ -59,6 +60,7 @@ class App extends React.Component {
           <Route exact path="/" component={TabBar} />
           <Route path="/profile" component={TabBar} />
           <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
         </div>
       </Router>
     );
