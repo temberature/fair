@@ -164,7 +164,7 @@ class Home extends React.Component {
       const course = this.state.courses[index--];
 
       return (
-        <li key={course.course_id} className="course">
+        <Link to={'/course/'+  course.course_id} key={course.course_id} className="course">
           <img
             width="87"
             height="130"
@@ -198,7 +198,7 @@ class Home extends React.Component {
               />
             </div>
           </div>
-        </li>
+        </Link>
       );
     };
 

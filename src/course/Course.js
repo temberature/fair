@@ -22,8 +22,8 @@ export default class Course extends React.Component {
 
     axios
       .get(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RetrieveEventByEventIdServlet?event_id=" +
-          this.state.pageIndex
+        "https://www.jieshu.mobi:8181/YanglaoServer-war/RetrieveEventByEventIdServlet?event_id=" +
+          this.props.match.params.id
       )
       .then(response => {
         console.log(response);

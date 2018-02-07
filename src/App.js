@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.less";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -11,6 +11,9 @@ import Profile from "./profile/Profile";
 import classNames from "classnames/bind";
 import Course from './course/Course'
 import TabBar from './components/tabbar/TabBar'
+import EntryForm from './entryform/EntryForm'
+import { ActionSheet, WingBlank, Button, Toast } from "antd-mobile";
+import "./App.less";
 
 const Topic = ({ match }) => (
   <div>
@@ -50,7 +53,8 @@ class App extends React.Component {
           <div>
             <Route exact path="/" component={Home} />
             <Route path="/profile" component={Profile} />
-            <Route path="/course" component={Course} />
+            <Route exact path="/course/:id" component={Course} />
+            <Route path="/course/:id/entryForm" component={EntryForm} />
             <Route exact path="/" component={TabBar} />
             <Route path="/profile" component={TabBar} />
             
