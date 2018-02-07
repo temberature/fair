@@ -9,11 +9,13 @@ import {
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
 import classNames from "classnames/bind";
-import Course from './course/Course'
-import TabBar from './components/tabbar/TabBar'
-import EntryForm from './entryform/EntryForm'
+import Course from "./course/Course";
+import TabBar from "./components/tabbar/TabBar";
+import EntryForm from "./entryform/EntryForm";
 import { ActionSheet, WingBlank, Button, Toast } from "antd-mobile";
 import "./App.less";
+import SignIn from "./signin/SignIn";
+// import MyCourses from "./mycourses/MyCourses";
 
 const Topic = ({ match }) => (
   <div>
@@ -48,19 +50,17 @@ const Topics = ({ match }) => (
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <Router>
-          <div>
-            <Route exact path="/" component={Home} />
-            <Route path="/profile" component={Profile} />
-            <Route exact path="/course/:id" component={Course} />
-            <Route path="/course/:id/entryForm" component={EntryForm} />
-            <Route exact path="/" component={TabBar} />
-            <Route path="/profile" component={TabBar} />
-            
-          </div>
-        </Router>
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={Home} />
+          <Route path="/profile" component={Profile} />
+          <Route exact path="/course/:id" component={Course} />
+          <Route path="/course/:id/entryForm" component={EntryForm} />
+          <Route exact path="/" component={TabBar} />
+          <Route path="/profile" component={TabBar} />
+          <Route path="/signin" component={SignIn} />
+        </div>
+      </Router>
     );
   }
 }
