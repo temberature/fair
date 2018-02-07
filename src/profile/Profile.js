@@ -2,10 +2,31 @@ import React from "react";
 import { List, Icon } from "antd-mobile";
 import "./Profile.less";
 import OAIcon from "../components/icon/Icon";
+import axios from "axios";
 
 const Item = List.Item;
 
 class Profile extends React.Component {
+  state = {
+    user: {}
+  }
+  componentDidMount() {
+    // you can scroll to the specified position
+    // setTimeout(() => this.lv.scrollTo(0, 120), 800);
+
+    axios
+      .get(
+        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RetrieveMyProfileDataServlet?event_id=" +
+          this.props.match.params.id
+      )
+      .then(response => {
+        console.log(response);
+        // data = data.response
+        this.setState(() => ({
+          user: response.data
+        }));
+      });
+  }
   render() {
     return (
       <div id="profile">
@@ -15,6 +36,7 @@ class Profile extends React.Component {
             src={require("./assets/avatar_default.png")}
             alt=""
           />
+          {this.state.user.mobilephoneNumber}
         </header>
         <main>
           <List>
