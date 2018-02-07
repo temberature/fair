@@ -33,6 +33,13 @@ export default class Course extends React.Component {
         }));
       });
   }
+  generateNewLine(inString) {
+    if (inString !== null && typeof inString !== 'undefined') {
+      let outString = inString.replace(/\n/g, '<br/>');
+      outString = outString.replace(/\r/g, '<br/>');
+      return outString;
+    }
+  }
   render() {
     const course = this.state.course;
 
@@ -63,8 +70,7 @@ export default class Course extends React.Component {
           </div>
           <div className="deadline">
             报名截止至：{Moment(course.event_start_date).format("YYYY/MM/DD")}
-            <span className="period">
-              <Period
+            <Period
                 course={course}
                 images={[
                   require("./assets/period_enrolling.png"),
@@ -72,7 +78,6 @@ export default class Course extends React.Component {
                   require("./assets/period_finish.png")
                 ]}
               />
-            </span>
           </div>
           <List>
             <Item
@@ -90,7 +95,7 @@ export default class Course extends React.Component {
             <Item
               extra={
                 Moment(course.startDate).format("YYYY/MM/DD") +
-                "-" +
+                " ~ " +
                 Moment(course.endDate).format("YYYY/MM/DD")
               }
               onClick={() => {}}
@@ -100,7 +105,7 @@ export default class Course extends React.Component {
             <Item
               extra={
                 <div>
-                  <OAIcon type={require("../assets/icon_place.svg")} />
+                  <OAIcon size="xxs" style={{color: '#9b9b9b'}} type={require("../assets/icon_place.svg")} />
                   {course.address}
                 </div>
               }
@@ -113,15 +118,13 @@ export default class Course extends React.Component {
               费用
             </Item>
           </List>
-          <div className="detail">
-            {course.event_main_content ? course.event_main_content : "活动详情"}
+          <div className="detail" dangerouslySetInnerHTML={{__html: course.event_main_content ? this.generateNewLine(course.event_main_content) : "活动详情"}}>
           </div>
         </div>
 
         {new Date().getTime() < course.event_register_deadline &&
           (course.enrolled ? (
             <Button
-              style={{ width: "100%" }}
               disabled
               className="enrollBtn"
               type="primary"
@@ -132,7 +135,6 @@ export default class Course extends React.Component {
           ) : (
             <Link to="./entryForm" append>
               <Button
-                style={{ width: "100%" }}
                 className="enrollBtn"
                 type="primary"
                 size="large"
