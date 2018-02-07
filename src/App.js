@@ -17,6 +17,8 @@ import "./App.less";
 import SignIn from "./signin/SignIn";
 import SignUp from "./signup/SignUp";
 // import MyCourses from "./mycourses/MyCourses";
+import About from "./about/About";
+import Invitation from "./invitation/Invitation";
 
 const Topic = ({ match }) => (
   <div>
@@ -61,6 +63,8 @@ class App extends React.Component {
           <Route path="/profile" component={TabBar} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/about" component={About} />
+          <Route path="/invitation" component={Invitation} />
         </div>
       </Router>
     );
