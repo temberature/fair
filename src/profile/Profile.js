@@ -47,7 +47,7 @@ class Profile extends React.Component {
               thumb={<OAIcon type={require("./assets/icon_course.svg")} />}
               arrow="horizontal"
               onClick={() => {
-                this.props.history.push("/");
+                this.props.history.push("/me/courses");
               }}
             >
               我的活动

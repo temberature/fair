@@ -94,7 +94,10 @@ class Home extends React.Component {
       });
     });
   }
-
+  componentWillUnmount() {
+    sectionIDs = [];
+    rowIDs = [];
+  }
   onEndReached = event => {
     // load new data
     // hasMore: from backend data, indicates whether it is the last page, here is false
@@ -136,7 +139,7 @@ class Home extends React.Component {
         backgroundColor: "#E5E5E5",
         width: 335,
         height: 1,
-        margin: '0 auto',
+        margin: "0 auto",
         border: 0
       }}
     />
@@ -166,7 +169,8 @@ class Home extends React.Component {
             <div className="name">{course.title}</div>
             <div className="time">
               <label htmlFor="">时间：</label>
-              {Moment(course.event_start_date).format("YYYY/MM/DD")} ～ {Moment(course.event_end_date).format("YYYY/MM/DD")}
+              {Moment(course.event_start_date).format("YYYY/MM/DD")} ～{" "}
+              {Moment(course.event_end_date).format("YYYY/MM/DD")}
             </div>
             <div className="address">
               <label htmlFor="">地点：</label>
@@ -225,7 +229,7 @@ class Home extends React.Component {
                 <span>历史</span>
               </NavLink>
               <NavLink to="/others">其他</NavLink>
-              <div className="mark"></div>
+              <div className="mark" />
             </header>
           )}
           renderFooter={() => (

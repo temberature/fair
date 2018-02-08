@@ -9,7 +9,7 @@ import EntryForm from "./entryform/EntryForm";
 import "./App.less";
 import SignIn from "./signin/SignIn";
 import SignUp from "./signup/SignUp";
-// import MyCourses from "./mycourses/MyCourses";
+import MyCourses from "./mycourses/MyCourses";
 import About from "./about/About";
 import Invitation from "./invitation/Invitation";
 import Settings from "./settings/Settings";
@@ -29,6 +29,7 @@ class App extends React.Component {
             <Route path="/profile" component={TabBar} />
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
+            <Route path="/me/courses" component={MyCourses} />
             <Route path="/about" component={About} />
             <Route path="/invitation" component={Invitation} />
             <Route path="/settings" component={Settings} />

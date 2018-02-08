@@ -34,12 +34,22 @@ export default class Course extends React.Component {
         this.setState(() => ({
           course: response.data
         }));
+      })
+      .catch(function(error) {
+        console.log(error);
       });
+    if (!sessionStorage.getItem(WebConstants.TOKEN)) {
+      console.log(111);
+      return;
+    }
     axios
       .get("/RetrieveEventParticipantsServlet", {
         params: {
           event_id: this.props.match.params.id,
           [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
+        },
+        validateStatus: function(status) {
+          return +status === 200;
         }
       })
       .then(response => {
@@ -48,6 +58,11 @@ export default class Course extends React.Component {
           this.setState(() => ({
             already_joined_event: true
           }));
+        }
+      })
+      .catch(function(error) {
+        if (!error.response) {
+          sessionStorage.removeItem(WebConstants.TOKEN);
         }
       });
   }
