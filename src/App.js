@@ -19,6 +19,8 @@ import SignUp from "./signup/SignUp";
 // import MyCourses from "./mycourses/MyCourses";
 import About from "./about/About";
 import Invitation from "./invitation/Invitation";
+import Settings from "./settings/Settings";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Topic = ({ match }) => (
   <div>
@@ -54,18 +56,21 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
-          <Route exact path="/" component={Home} />
-          <Route path="/profile" component={Profile} />
-          <Route exact path="/course/:id" component={Course} />
-          <Route exact path="/course/:id/entryForm" component={EntryForm} />
-          <Route exact path="/" component={TabBar} />
-          <Route path="/profile" component={TabBar} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/about" component={About} />
-          <Route path="/invitation" component={Invitation} />
-        </div>
+        <ScrollToTop>
+          <div>
+            <Route exact path="/" component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route exact path="/course/:id" component={Course} />
+            <Route exact path="/course/:id/entryForm" component={EntryForm} />
+            <Route exact path="/" component={TabBar} />
+            <Route path="/profile" component={TabBar} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/about" component={About} />
+            <Route path="/invitation" component={Invitation} />
+            <Route path="/settings" component={Settings} />
+          </div>
+        </ScrollToTop>
       </Router>
     );
   }

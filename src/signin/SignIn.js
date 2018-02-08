@@ -1,38 +1,55 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, List, InputItem, WhiteSpace, Toast } from "antd-mobile";
+import { Button, List, InputItem, WhiteSpace, Toast, ActivityIndicator } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./SignIn.less";
 import axios from "../utils/customAxios";
-import jsSHA from 'jssha'
-import WebConstants from '../web_constants'
+import jsSHA from "jssha";
+import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
     user_mobilephone_number: "15910707069",
     password: "tember158569",
     hasPhoneError: false,
-    hasPasswordError: false
+    hasPasswordError: false,
+    animating: false
   };
+  componentDidMount () {
+    window.scrollTo(0, 0)
+  }
   signin = () => {
-    const shaObj = new jsSHA('SHA-256', 'TEXT');
+    this.setState({
+      animating: true
+    })
+    const shaObj = new jsSHA("SHA-256", "TEXT");
     shaObj.update(this.state.password);
-    const encryptedPassword = shaObj.getHash('HEX');
+    const encryptedPassword = shaObj.getHash("HEX");
     axios
       .post(
         "/LoginServlet?user_mobilephone_number=" +
-          this.state.user_mobilephone_number.replace(/\s/g, '') + '&password=' + encryptedPassword
+          this.state.user_mobilephone_number.replace(/\s/g, "") +
+          "&password=" +
+          encryptedPassword
       )
       .then(response => {
+        this.setState({
+          animating: false
+        })
         console.log(response.data.retdesc);
         const loginResult = response.data;
         if (loginResult.login_success) {
-          Toast.info("登录成功～");
-          sessionStorage.setItem(WebConstants.TOKEN, loginResult[WebConstants.TOKEN]);
-          this.props.history.push("/");
+          sessionStorage.setItem(
+            WebConstants.TOKEN,
+            loginResult[WebConstants.TOKEN]
+          );
+
+          Toast.success("登录成功", 1, () => {
+            this.props.history.push("/");
+          });
         }
       });
-  }
+  };
   onErrorClick = () => {
     if (this.state.hasError) {
       Toast.info("Please enter 11 digits");
@@ -99,6 +116,7 @@ class SignIn extends React.Component {
         <div className="toSignupTip tip">
           <Link to="/signup">快速注册</Link>
         </div>
+        <ActivityIndicator toast animating={this.state.animating} />
       </div>
     );
   }

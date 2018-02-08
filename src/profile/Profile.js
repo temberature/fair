@@ -3,28 +3,25 @@ import { List, Icon } from "antd-mobile";
 import "./Profile.less";
 import OAIcon from "../components/icon/Icon";
 import axios from "../utils/customAxios";
-import WebConstants from '../web_constants'
+import WebConstants from "../web_constants";
 
 const Item = List.Item;
 
 class Profile extends React.Component {
   state = {
     user: {}
-  }
+  };
   componentDidMount() {
     document.title = "个人中心";
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
 
-    
     axios
-      .get(
-        "/RetrieveMyProfileDataServlet", {
-          params: {
-            [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
-          }
+      .get("/RetrieveMyProfileDataServlet", {
+        params: {
+          [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
         }
-      )
+      })
       .then(response => {
         console.log(response);
         // data = data.response
@@ -49,13 +46,17 @@ class Profile extends React.Component {
             <Item
               thumb={<OAIcon type={require("./assets/icon_course.svg")} />}
               arrow="horizontal"
-              onClick={() => {this.props.history.push('/')}}
+              onClick={() => {
+                this.props.history.push("/");
+              }}
             >
               我的活动
             </Item>
             <Item
               thumb={<OAIcon type={require("./assets/icon_invite.svg")} />}
-              onClick={() => {this.props.history.push('/invitation')}}
+              onClick={() => {
+                this.props.history.push("/invitation");
+              }}
               arrow="horizontal"
             >
               邀请好友
@@ -63,13 +64,17 @@ class Profile extends React.Component {
             <Item
               thumb={<OAIcon type={require("./assets/icon_about.svg")} />}
               arrow="horizontal"
-              onClick={() => {this.props.history.push('/about')}}
+              onClick={() => {
+                this.props.history.push("/about");
+              }}
             >
               关于OA
             </Item>
             <Item
               thumb={<OAIcon type={require("./assets/icon_setting.svg")} />}
-              onClick={() => {this.props.history.push('/setting')}}
+              onClick={() => {
+                this.props.history.push("/settings");
+              }}
               arrow="horizontal"
             >
               设置
