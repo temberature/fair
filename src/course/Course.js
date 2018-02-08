@@ -2,7 +2,7 @@ import React from "react";
 import Moment from "moment";
 import axios from "../utils/customAxios";
 import { Button, List } from "antd-mobile";
-import OAIcon from "../components/icon/Icon";
+import OAIcon from "../components/icon/Icon.js";
 import Period from "../components/period/Period";
 import "./Course.less";
 import WebConstants from "../web_constants";
