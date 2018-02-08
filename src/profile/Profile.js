@@ -12,6 +12,7 @@ class Profile extends React.Component {
     user: {}
   }
   componentDidMount() {
+    document.title = "个人中心";
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
 

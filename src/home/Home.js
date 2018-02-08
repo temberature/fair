@@ -70,6 +70,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    document.title = "OA学院";
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
 

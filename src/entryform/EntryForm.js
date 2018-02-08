@@ -8,7 +8,8 @@ import {
   Toast,
   DatePicker,
   TextareaItem,
-  Result
+  Result,
+  ActivityIndicator
 } from "antd-mobile";
 import "./EntryForm.less";
 import axios from "../utils/customAxios";
@@ -39,8 +40,12 @@ class EntryForm extends React.Component {
     education: "",
     profession: "",
     feedback: false,
-    enrolled: false
+    enrolled: false,
+    animating: false
   };
+  componentDidMount () {
+    document.title = "我要报名";
+  }
   showActionSheet = (type, BUTTONS) => {
     ActionSheet.showActionSheetWithOptions(
       {
@@ -59,6 +64,10 @@ class EntryForm extends React.Component {
     );
   };
   enroll = () => {
+    this.setState({
+      animating: true
+    })
+    
     axios
       .get("/ApplyEventServlet", {
         params: {
@@ -67,6 +76,9 @@ class EntryForm extends React.Component {
         }
       })
       .then(response => {
+        this.setState({
+          animating: false
+        })
         console.log(response.data.retdesc);
         this.setState({ feedback: true });
         if (response.data.apply_event_status === WebConstants.SUCCESS) {
@@ -163,6 +175,7 @@ class EntryForm extends React.Component {
             <div className="hint">
               为了保证课程质量和体验，OA活动会控制合适的参与人数及质量。
             </div>
+            <ActivityIndicator toast animating={this.state.animating} />
           </div>
         )}
       </div>

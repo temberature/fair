@@ -3,6 +3,9 @@ import { ActionSheet, WingBlank, Button, Toast } from "antd-mobile";
 import "./Invitation.less";
 
 export default class Invitation extends React.Component {
+  componentDidMount () {
+    document.title = "邀请好友";
+  }
   render() {
     return (
       <div id="invitation">
