@@ -13,7 +13,8 @@ export default class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: {}
+      course: {},
+      already_joined_event: false
     };
   }
   componentDidMount() {
@@ -21,15 +22,33 @@ export default class Course extends React.Component {
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
 
     axios
-      .get(
-        "/RetrieveEventByEventIdServlet?event_id=" + this.props.match.params.id
-      )
+      .get("/RetrieveEventByEventIdServlet", {
+        params: {
+          event_id: this.props.match.params.id,
+          [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
+        }
+      })
       .then(response => {
         console.log(response);
-        // data = data.response
+
         this.setState(() => ({
           course: response.data
         }));
+      });
+    axios
+      .get("/RetrieveEventParticipantsServlet", {
+        params: {
+          event_id: this.props.match.params.id,
+          [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
+        }
+      })
+      .then(response => {
+        console.log(response);
+        if (response.data.already_joined_event) {
+          this.setState(() => ({
+            already_joined_event: true
+          }));
+        }
       });
   }
   generateNewLine(inString) {
@@ -94,7 +113,6 @@ export default class Course extends React.Component {
                 course.max_attendence +
                 "人"
               }
-              onClick={() => {}}
             >
               报名人数
             </Item>
@@ -104,7 +122,7 @@ export default class Course extends React.Component {
                 " ~ " +
                 Moment(course.endDate).format("YYYY/MM/DD")
               }
-              onClick={() => {}}
+              wrap
             >
               活动时间
             </Item>
@@ -120,13 +138,10 @@ export default class Course extends React.Component {
                 </div>
               }
               arrow="horizontal"
-              onClick={() => {}}
             >
               活动地点
             </Item>
-            <Item extra="免费" onClick={() => {}}>
-              费用
-            </Item>
+            <Item extra="免费">费用</Item>
           </List>
           <div
             className="detail"
@@ -139,7 +154,7 @@ export default class Course extends React.Component {
         </div>
 
         {new Date().getTime() < course.event_register_deadline &&
-          (course.enrolled ? (
+          (this.state.already_joined_event ? (
             <Button disabled className="enrollBtn" type="primary" size="large">
               已报名
             </Button>
