@@ -1,10 +1,6 @@
-import React, { Component } from "react";
-import { TabBar } from "antd-mobile";
+import React from "react";
 import "./TabBar.less";
 import {
-  BrowserRouter as Router,
-  Route,
-  Link,
   NavLink
 } from "react-router-dom";
 import OAIcon from "../icon/Icon";

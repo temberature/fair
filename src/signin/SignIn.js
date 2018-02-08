@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, List, InputItem, WhiteSpace, Toast, ActivityIndicator } from "antd-mobile";
+import { Button, List, InputItem, Toast, ActivityIndicator } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./SignIn.less";
 import axios from "../utils/customAxios";
@@ -84,7 +84,6 @@ class SignIn extends React.Component {
     });
   };
   render() {
-    const { getFieldProps } = this.props.form;
     return (
       <div id="signin">
         <List>

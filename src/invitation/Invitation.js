@@ -1,5 +1,5 @@
 import React from "react";
-import { ActionSheet, WingBlank, Button, Toast } from "antd-mobile";
+import { Button } from "antd-mobile";
 import "./Invitation.less";
 
 export default class Invitation extends React.Component {
@@ -25,7 +25,7 @@ export default class Invitation extends React.Component {
           <p className="p2">
             数以千计的可爱的灵魂们在这里相遇，一同通过文学、艺术、哲学、科技，去探索这广阔而奇妙的世界。
           </p>
-          <img className="divider" src={require('./assets/divider.png')} />
+          <img className="divider" src={require('./assets/divider.png')} alt="" />
           {/* <blockquote>
             人们的目光越出于此岸的现实之外，瞥向神圣的东西。
             <footer class="blockquote-footer"> —黑格尔</footer>

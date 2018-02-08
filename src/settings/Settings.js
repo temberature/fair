@@ -1,8 +1,6 @@
 import React from "react";
-import { List, Icon, Button, Toast } from "antd-mobile";
+import { List, Button, Toast } from "antd-mobile";
 import "./Settings.less";
-import OAIcon from "../components/icon/Icon";
-import axios from "../utils/customAxios";
 import WebConstants from "../web_constants";
 
 const Item = List.Item;

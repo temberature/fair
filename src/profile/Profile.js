@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Icon } from "antd-mobile";
+import { List } from "antd-mobile";
 import "./Profile.less";
 import OAIcon from "../components/icon/Icon";
 import axios from "../utils/customAxios";

@@ -1,9 +1,6 @@
 import React from 'react'
 
 export default class Period extends React.Component {
-    constructor (props) {
-        super(props);
-    }
     render () {
         const { course, images } = this.props;
         if (!course||!images) {
@@ -17,7 +14,7 @@ export default class Period extends React.Component {
         } else if (now > course.event_end_date) {
           return <img src={images[2]} alt="" />;
         } else {
-            return <img />
+            return <img alt="" />
         }
     }
 }

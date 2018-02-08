@@ -1,11 +1,9 @@
 import React from "react";
-import { List, InputItem, WhiteSpace } from "antd-mobile";
+import { List, InputItem } from "antd-mobile";
 import { createForm } from "rc-form";
 import {
   ActionSheet,
-  WingBlank,
   Button,
-  Toast,
   DatePicker,
   TextareaItem,
   Result,
@@ -13,12 +11,6 @@ import {
 } from "antd-mobile";
 import "./EntryForm.less";
 import axios from "../utils/customAxios";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink
-} from "react-router-dom";
 import WebConstants from "../web_constants";
 
 const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
@@ -88,7 +80,6 @@ class EntryForm extends React.Component {
   };
   render() {
     const { getFieldProps } = this.props.form;
-    const { type } = this.state;
     const Item = List.Item;
     return (
       <div id="entryForm">
@@ -96,7 +87,7 @@ class EntryForm extends React.Component {
           (this.state.enrolled ? (
             <div className="result">
               <Result
-                img={<img src={require("./assets/enroll_success.png")} />}
+                img={<img src={require("./assets/enroll_success.png")} alt="" />}
                 title="报名申请成功"
                 buttonText="我知道了"
                 buttonType="primary"
@@ -108,7 +99,7 @@ class EntryForm extends React.Component {
           ) : (
             <div className="result">
               <Result
-                img={<img src={require("./assets/enroll_fail.png")} />}
+                img={<img src={require("./assets/enroll_fail.png")} alt="" />}
                 title="报名失败"
                 message="报名人员已满，看看其他课程吧"
                 buttonText="我知道了"
@@ -144,7 +135,7 @@ class EntryForm extends React.Component {
                 value={this.state.date}
                 onChange={date => this.setState({ date })}
               >
-                <Item onClick={() => {}} arrow="horizontal">
+                <Item onClick={() => {}} arrow="horizontal" wrap>
                   出生年月
                 </Item>
               </DatePicker>
