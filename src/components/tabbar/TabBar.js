@@ -60,7 +60,7 @@ class OATabBar extends React.Component {
   render() {
     return (
       <div className="mint-tabbar is-fixed">
-        <NavLink to="/" activeClassName="is-selected" className="mint-tab-item">
+        <NavLink exact to="/" activeClassName="is-selected" className="mint-tab-item">
           <div className="mint-tab-item-icon">
             <OAIcon type={require("./assets/icon_home.svg")} />
           </div>

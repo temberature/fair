@@ -35,7 +35,7 @@ class EntryForm extends React.Component {
     enrolled: false,
     animating: false
   };
-  componentDidMount () {
+  componentDidMount() {
     document.title = "我要报名";
   }
   showActionSheet = (type, BUTTONS) => {
@@ -58,8 +58,8 @@ class EntryForm extends React.Component {
   enroll = () => {
     this.setState({
       animating: true
-    })
-    
+    });
+
     axios
       .get("/ApplyEventServlet", {
         params: {
@@ -70,7 +70,7 @@ class EntryForm extends React.Component {
       .then(response => {
         this.setState({
           animating: false
-        })
+        });
         console.log(response.data.retdesc);
         this.setState({ feedback: true });
         if (response.data.apply_event_status === WebConstants.SUCCESS) {
@@ -87,7 +87,9 @@ class EntryForm extends React.Component {
           (this.state.enrolled ? (
             <div className="result">
               <Result
-                img={<img src={require("./assets/enroll_success.png")} alt="" />}
+                img={
+                  <img src={require("./assets/enroll_success.png")} alt="" />
+                }
                 title="报名申请成功"
                 buttonText="我知道了"
                 buttonType="primary"
@@ -132,11 +134,12 @@ class EntryForm extends React.Component {
                 性别
               </Item>
               <DatePicker
+              mode="date"
                 value={this.state.date}
                 onChange={date => this.setState({ date })}
               >
                 <Item onClick={() => {}} arrow="horizontal" wrap>
-                  出生年月
+                  出生年月日
                 </Item>
               </DatePicker>
 
