@@ -15,6 +15,7 @@ class Profile extends React.Component {
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
 
+    
     axios
       .get(
         "/RetrieveMyProfileDataServlet", {
@@ -47,13 +48,13 @@ class Profile extends React.Component {
             <Item
               thumb={<OAIcon type={require("./assets/icon_course.svg")} />}
               arrow="horizontal"
-              onClick={() => {}}
+              onClick={() => {this.props.history.push('/')}}
             >
               我的活动
             </Item>
             <Item
               thumb={<OAIcon type={require("./assets/icon_invite.svg")} />}
-              onClick={() => {}}
+              onClick={() => {this.props.history.push('/invitation')}}
               arrow="horizontal"
             >
               邀请好友
@@ -61,13 +62,13 @@ class Profile extends React.Component {
             <Item
               thumb={<OAIcon type={require("./assets/icon_about.svg")} />}
               arrow="horizontal"
-              onClick={() => {}}
+              onClick={() => {this.props.history.push('/about')}}
             >
               关于OA
             </Item>
             <Item
               thumb={<OAIcon type={require("./assets/icon_setting.svg")} />}
-              onClick={() => {}}
+              onClick={() => {this.props.history.push('/setting')}}
               arrow="horizontal"
             >
               设置

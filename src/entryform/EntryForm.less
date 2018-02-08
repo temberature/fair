@@ -1,11 +1,11 @@
 #entryForm {
   position: relative;
+  height: 100%;
   font-size: 26/2px;
   color: #ababab;
-  background: #f4f4f4;
-  .tip {
+  background: #fff;
+  .result {
     width: 100%;
-    padding: 180/2px 0 200/2px 0;
     font-size: 38/2px;
     color: #494949;
     text-align: center;
@@ -14,6 +14,24 @@
       width: 299/2px;
     }
   }
+  .am-result {
+    padding: 180/2px 0 0;
+    .am-result-title {
+      margin-top: 43/2px;
+      font-size: 38/2px;
+      line-height: 1;
+    }
+    .am-result-message {
+      margin-top: 21/2px;
+      line-height: 38/2px;
+      font-size: 28/2px;
+      color: #888;
+    }
+    .am-result-button {
+     margin-top: 200/2px;
+    }
+  }
+  
   .info {
     font-size: 32/2px;
     color: #494949;
@@ -63,5 +81,8 @@
   .hint {
     width: 662/750*100%;
     margin: 0 auto;
+  }
+  .am-result::after {
+    height: 0;
   }
 }

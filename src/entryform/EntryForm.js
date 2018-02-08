@@ -7,7 +7,8 @@ import {
   Button,
   Toast,
   DatePicker,
-  TextareaItem
+  TextareaItem,
+  Result
 } from "antd-mobile";
 import "./EntryForm.less";
 import axios from "../utils/customAxios";
@@ -17,7 +18,7 @@ import {
   Link,
   NavLink
 } from "react-router-dom";
-import WebConstants from '../web_constants'
+import WebConstants from "../web_constants";
 
 const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
   window.navigator.userAgent
@@ -37,6 +38,7 @@ class EntryForm extends React.Component {
     birthdate: "",
     education: "",
     profession: "",
+    feedback: false,
     enrolled: false
   };
   showActionSheet = (type, BUTTONS) => {
@@ -66,7 +68,10 @@ class EntryForm extends React.Component {
       })
       .then(response => {
         console.log(response.data.retdesc);
-        this.setState({ enrolled: true });
+        this.setState({ feedback: true });
+        if (response.data.apply_event_status === WebConstants.SUCCESS) {
+          this.setState({ enrolled: true });
+        }
       });
   };
   render() {
@@ -75,16 +80,34 @@ class EntryForm extends React.Component {
     const Item = List.Item;
     return (
       <div id="entryForm">
-        {this.state.enrolled && (
-          <div className="tip">
-            <img src={require("./assets/enroll_success.png")} alt="" />
-            <div>报名申请成功</div>
-            <Button href="/me/courses" type="primary" className="enrollBtn">
-              我知道了
-            </Button>
-          </div>
-        )}
-        {!this.state.enrolled && (
+        {this.state.feedback &&
+          (this.state.enrolled ? (
+            <div className="result">
+              <Result
+                img={<img src={require("./assets/enroll_success.png")} />}
+                title="报名申请成功"
+                buttonText="我知道了"
+                buttonType="primary"
+                onButtonClick={() => {
+                  this.props.history.push("/");
+                }}
+              />
+            </div>
+          ) : (
+            <div className="result">
+              <Result
+                img={<img src={require("./assets/enroll_fail.png")} />}
+                title="报名失败"
+                message="报名人员已满，看看其他课程吧"
+                buttonText="我知道了"
+                buttonType="primary"
+                onButtonClick={() => {
+                  this.props.history.push("/");
+                }}
+              />
+            </div>
+          ))}
+        {!this.state.feedback && (
           <div>
             <List>
               <InputItem

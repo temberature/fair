@@ -29,6 +29,7 @@ class SignIn extends React.Component {
         if (loginResult.login_success) {
           Toast.info("登录成功～");
           sessionStorage.setItem(WebConstants.TOKEN, loginResult[WebConstants.TOKEN]);
+          this.props.history.push("/");
         }
       });
   }

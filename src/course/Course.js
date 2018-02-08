@@ -6,6 +6,7 @@ import { Button, List } from "antd-mobile";
 import OAIcon from "../components/icon/Icon";
 import Period from "../components/period/Period";
 import "./Course.less";
+import WebConstants from "../web_constants";
 
 const Item = List.Item;
 
@@ -22,8 +23,7 @@ export default class Course extends React.Component {
 
     axios
       .get(
-        "/RetrieveEventByEventIdServlet?event_id=" +
-          this.props.match.params.id
+        "/RetrieveEventByEventIdServlet?event_id=" + this.props.match.params.id
       )
       .then(response => {
         console.log(response);
@@ -34,12 +34,19 @@ export default class Course extends React.Component {
       });
   }
   generateNewLine(inString) {
-    if (inString !== null && typeof inString !== 'undefined') {
-      let outString = inString.replace(/\n/g, '<br/>');
-      outString = outString.replace(/\r/g, '<br/>');
+    if (inString !== null && typeof inString !== "undefined") {
+      let outString = inString.replace(/\n/g, "<br/>");
+      outString = outString.replace(/\r/g, "<br/>");
       return outString;
     }
   }
+  toEntry = () => {
+    if (!sessionStorage.getItem(WebConstants.TOKEN)) {
+      this.props.history.push("/signin");
+    } else {
+      this.props.history.push(this.props.match.url + "/entryForm");
+    }
+  };
   render() {
     const course = this.state.course;
 
@@ -71,13 +78,13 @@ export default class Course extends React.Component {
           <div className="deadline">
             报名截止至：{Moment(course.event_start_date).format("YYYY/MM/DD")}
             <Period
-                course={course}
-                images={[
-                  require("./assets/period_enrolling.png"),
-                  require("./assets/period_ongoing.png"),
-                  require("./assets/period_finish.png")
-                ]}
-              />
+              course={course}
+              images={[
+                require("./assets/period_enrolling.png"),
+                require("./assets/period_ongoing.png"),
+                require("./assets/period_finish.png")
+              ]}
+            />
           </div>
           <List>
             <Item
@@ -105,7 +112,11 @@ export default class Course extends React.Component {
             <Item
               extra={
                 <div>
-                  <OAIcon size="xxs" style={{color: '#9b9b9b'}} type={require("../assets/icon_place.svg")} />
+                  <OAIcon
+                    size="xxs"
+                    style={{ color: "#9b9b9b" }}
+                    type={require("../assets/icon_place.svg")}
+                  />
                   {course.address}
                 </div>
               }
@@ -118,30 +129,30 @@ export default class Course extends React.Component {
               费用
             </Item>
           </List>
-          <div className="detail" dangerouslySetInnerHTML={{__html: course.event_main_content ? this.generateNewLine(course.event_main_content) : "活动详情"}}>
-          </div>
+          <div
+            className="detail"
+            dangerouslySetInnerHTML={{
+              __html: course.event_main_content
+                ? this.generateNewLine(course.event_main_content)
+                : "活动详情"
+            }}
+          />
         </div>
 
         {new Date().getTime() < course.event_register_deadline &&
           (course.enrolled ? (
-            <Button
-              disabled
-              className="enrollBtn"
-              type="primary"
-              size="large"
-            >
+            <Button disabled className="enrollBtn" type="primary" size="large">
               已报名
             </Button>
           ) : (
-            <Link to={this.props.match.url + "/entryForm"}>
-              <Button
-                className="enrollBtn"
-                type="primary"
-                size="large"
-              >
-                立即报名
-              </Button>
-            </Link>
+            <Button
+              className="enrollBtn"
+              type="primary"
+              size="large"
+              onClick={this.toEntry}
+            >
+              立即报名
+            </Button>
           ))}
       </div>
     );

@@ -19,6 +19,7 @@ import SignUp from "./signup/SignUp";
 // import MyCourses from "./mycourses/MyCourses";
 import About from "./about/About";
 import Invitation from "./invitation/Invitation";
+import EntryResult from './entryresult/EntryResult'
 
 const Topic = ({ match }) => (
   <div>
@@ -58,7 +59,8 @@ class App extends React.Component {
           <Route exact path="/" component={Home} />
           <Route path="/profile" component={Profile} />
           <Route exact path="/course/:id" component={Course} />
-          <Route path="/course/:id/entryForm" component={EntryForm} />
+          <Route exact path="/course/:id/entryForm" component={EntryForm} />
+          <Route path="/course/:id/entryForm/result" component={EntryResult} />
           <Route exact path="/" component={TabBar} />
           <Route path="/profile" component={TabBar} />
           <Route path="/signin" component={SignIn} />
