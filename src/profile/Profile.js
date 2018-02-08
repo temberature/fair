@@ -1,7 +1,7 @@
 import React from "react";
 import { List } from "antd-mobile";
 import "./Profile.less";
-import OAIcon from "../components/icon/Icon";
+import OAIcon from "../components/icon/Icon.js";
 import axios from "../utils/customAxios";
 import WebConstants from "../web_constants";
 
