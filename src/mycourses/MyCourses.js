@@ -1,7 +1,7 @@
 /* eslint no-dupe-keys: 0, no-mixed-operators: 0 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { ListView, Carousel } from "antd-mobile";
+import { ListView } from "antd-mobile";
 import axios from "../utils/customAxios";
 import "./MyCourses.less";
 import { Link, NavLink } from "react-router-dom";
