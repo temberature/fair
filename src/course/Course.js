@@ -18,8 +18,7 @@ export default class Course extends React.Component {
     };
   }
   componentDidMount() {
-    // you can scroll to the specified position
-    // setTimeout(() => this.lv.scrollTo(0, 120), 800);
+    document.title = "OA学院";
 
     axios
       .get("/RetrieveEventByEventIdServlet", {
