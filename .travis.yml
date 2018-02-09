@@ -1,18 +1,16 @@
 branches:
   only:
-    - gh-pages
+    - develop
 language: node_js
 node_js: stable
 sudo: false
 cache:
   directories:
     - node_modules
-before_script:
-  - git clone --branch master https://${GH_REF} dist
 script:
   - npm run build
 after_success:
-  - cd dist
+  - cd build
   - cp index.html 404.html
   - git add --all .
   - git commit --message "Automatically update from travis-ci"
