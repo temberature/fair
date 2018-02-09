@@ -7,14 +7,10 @@ import "./Home.less";
 import { Link, NavLink } from "react-router-dom";
 import Moment from "moment";
 import Period from "../components/period/Period";
+import classNames from 'classnames/bind';
 
 function MyBody(props) {
-  return (
-    <div className="am-list-body my-body courses">
-      <span style={{ display: "none" }}>you can custom body wrap element</span>
-      {props.children}
-    </div>
-  );
+  return <div className="am-list-body my-body courses">{props.children}</div>;
 }
 
 const NUM_SECTIONS = 1;
@@ -61,7 +57,8 @@ class Home extends React.Component {
       height: document.documentElement.clientHeight * 3 / 4,
       courses: [],
       pageIndex: 0,
-      hasMore: false
+      hasMore: false,
+      type: 0
     };
   }
 
@@ -73,7 +70,7 @@ class Home extends React.Component {
     const height =
       document.documentElement.clientHeight -
       ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
-    // simulate initial Ajax
+
     axios.get("/RetrieveEventServlet").then(response => {
       console.log(response);
       if (!response.data) {
@@ -98,6 +95,27 @@ class Home extends React.Component {
     sectionIDs = [];
     rowIDs = [];
   }
+  filter = type => {
+    this.setState({
+      type
+    })
+    type = ['', '哲学', '艺术', '历史', '文学', '科技'][type];
+    axios
+      .get("/RetrieveEventServlet", {
+        params: {
+          event_tag: encodeURIComponent(type)
+        }
+      })
+      .then(response => {
+        console.log(response);
+        if (!response.data) {
+          return;
+        }
+        this.setState({
+          courses: response.data
+        });
+      });
+  };
   onEndReached = event => {
     // load new data
     // hasMore: from backend data, indicates whether it is the last page, here is false
@@ -213,23 +231,24 @@ class Home extends React.Component {
           dataSource={this.state.dataSource}
           renderHeader={() => (
             <header className="tabs">
-              <NavLink to="/all" onClick={this.handleClick}>
-                <span>全部</span>
-              </NavLink>
-              <NavLink to="/enrolling">
-                <span>报名中</span>
-              </NavLink>
-              <NavLink to="/philosophy">
-                <span>哲学</span>
-              </NavLink>
-              <NavLink to="/art">
-                <span>艺术</span>
-              </NavLink>
-              <NavLink to="/history">
-                <span>历史</span>
-              </NavLink>
-              <NavLink to="/others">其他</NavLink>
-              <div className="mark" />
+              <span className={classNames({active: this.state.type===0})} onClick={this.filter.bind(this, 0)}>
+                全部<span className="mark" />
+              </span>
+              <span className={classNames({active: this.state.type===1})} onClick={this.filter.bind(this, 1)}>
+                哲学<span className="mark" />
+              </span>
+              <span className={classNames({active: this.state.type===2})} onClick={this.filter.bind(this, 2)}>
+                艺术<span className="mark" />
+              </span>
+              <span className={classNames({active: this.state.type===3})} onClick={this.filter.bind(this, 3)}>
+                历史<span className="mark" />
+              </span>
+              <span className={classNames({active: this.state.type===4})} onClick={this.filter.bind(this, 4)}>
+                文学<span className="mark" />
+              </span>
+              <span className={classNames({active: this.state.type===5})} onClick={this.filter.bind(this, 5)}>
+                科技<span className="mark" />
+              </span>
             </header>
           )}
           renderFooter={() => (

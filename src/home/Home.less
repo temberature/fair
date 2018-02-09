@@ -22,23 +22,31 @@
       line-height: 1;
       overflow: auto;
       .tabs {
-        position: relative;
         white-space: nowrap;
-        a {
-          margin-right: 30px;
+        span {
+          position: relative;
+          margin-right: 80/2px;
           font-size: 14px;
           color: #9b9b9b;
           text-decoration: none;
           &.on {
             color: #000;
           }
-        }
-        .mark {
-          position: absolute;
-          bottom: -(19+5)/2px;
-          width: 60/2px;
-          height: 5/2px;
-          background: #000;
+          .mark {
+            display: none;
+            position: absolute;
+            left: 0;
+            bottom: -19/2px;
+            width: 60/2px;
+            height: 5/2px;
+            background: #000;
+          }
+          &.active {
+            color: #000000;
+            .mark {
+              display: inline-block;
+            }
+          }
         }
       }
     }
