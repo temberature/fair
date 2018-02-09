@@ -14,18 +14,25 @@ class Home extends React.Component {
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource: ds.cloneWithRows([]),
-      type: 0
+      type: 0,
+      isLoading: false
     };
   }
   componentDidMount() {
+    document.title = "OA学院";
+
+    this.setState({ isLoading: true });
     axios.get("/RetrieveEventServlet").then(response => {
+      this.setState({ isLoading: false });
       var ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
       });
       this.setState({
-        dataSource: ds.cloneWithRows(response.data.sort((a, b) => {
-          return a.course_id < b.course_id;
-        }))
+        dataSource: ds.cloneWithRows(
+          response.data.sort((a, b) => {
+            return a.course_id < b.course_id;
+          })
+        )
       });
     });
   }
@@ -116,7 +123,8 @@ class Home extends React.Component {
   }
   filter = type => {
     this.setState({
-      type
+      type,
+      loading: true
     });
     type = ["", "哲学", "艺术", "历史", "文学", "科技"][type];
     axios
@@ -126,13 +134,16 @@ class Home extends React.Component {
         }
       })
       .then(response => {
+        this.setState({ isLoading: false });
         var ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
         });
         this.setState({
-          dataSource: ds.cloneWithRows(response.data.sort((a, b) => {
-            return a.course_id < b.course_id;
-          }))
+          dataSource: ds.cloneWithRows(
+            response.data.sort((a, b) => {
+              return a.course_id < b.course_id;
+            })
+          )
         });
       });
   };
@@ -148,15 +159,17 @@ class Home extends React.Component {
       }}
     />
   );
-  footer () {
-    return <div style={{ padding: 20, textAlign: "center" }}>
-    {this.state.isLoading ? "加载中..." : "你来到了宇宙的边界"}
-  </div>
-  }
+  footer = () => {
+    return (
+      <div style={{ padding: 20, textAlign: "center" }}>
+        {this.state.isLoading ? "加载中..." : "你来到了宇宙的边界"}
+      </div>
+    );
+  };
   render() {
     return (
       <div id="home">
-        <Carousel autoplay={true} infinite selectedIndex={0}>
+        <Carousel autoplay={false} infinite selectedIndex={0}>
           {["banner1.png", "banner2.jpg", "banner3.jpg"].map(val => (
             <a key={val} href="http://www.alipay.com">
               <img

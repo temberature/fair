@@ -18,13 +18,21 @@
         height: 136px;
       }
     }
+    .am-carousel-wrap-dot > span {
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .am-carousel-wrap-dot-active > span {
+      background: #fff;
+  }
   }
   .am-list-view-scrollview {
     padding-bottom: 120/2px;
     .am-list-header {
       padding: 28/2px 0 24/2px 21px;
       line-height: 1;
-      overflow: auto;
+      overflow-y: hidden;
       .tabs {
         white-space: nowrap;
         span {
@@ -39,7 +47,7 @@
           .mark {
             display: none;
             position: absolute;
-            left: 0;
+            left: -1px;
             bottom: -19/2px;
             width: 60/2px;
             height: 5/2px;
@@ -75,6 +83,7 @@
           .name {
             margin-right: 21px;
             font-size: 34/2px;
+            font-family: PingFangSC-Medium;
             color: #2a2a2a;
             line-height: 36/2px;
           }
