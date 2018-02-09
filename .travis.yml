@@ -1,6 +1,6 @@
 branches:
   only:
-    - gh-pages
+    - develop
 language: node_js
 node_js: stable
 sudo: false
