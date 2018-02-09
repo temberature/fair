@@ -1,0 +1,90 @@
+#mycourses {
+  background: #fff;
+  .slider-decorator-0 {
+    bottom: 12/2px !important;
+    line-height: 1;
+    .am-carousel-wrap {
+      height: 8px;
+      font-size: 8px;
+    }
+  }
+  .am-list-view-scrollview {
+    .am-list-header {
+      padding: 28/2px 0 24/2px 21px;
+      line-height: 1;
+      overflow: auto;
+      .tabs {
+        position: relative;
+        white-space: nowrap;
+        a {
+          margin-right: 30px;
+          font-size: 14px;
+          color: #9b9b9b;
+          text-decoration: none;
+          &.on {
+            color: #000;
+          }
+        }
+        .mark {
+          position: absolute;
+          bottom: -(19+5)/2px;
+          width: 60/2px;
+          height: 5/2px;
+          background: #000;
+        }
+      }
+    }
+    .list-view-section-body {
+      margin: 0;
+      padding-left: 0;
+      .course {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        .cover {
+          width: 174/2px;
+          height: 130px;
+          margin: 29/2px 26/2px 28/2px 40/2px;
+        }
+        .info {
+          width: 248px;
+          margin: 39/2px 0 13px 6px;
+          font-size: 13px;
+          color: #9b9b9b;
+          line-height: 1;
+          .name {
+            margin-right: 21px;
+            font-size: 34/2px;
+            color: #2a2a2a;
+            line-height: 36/2px;
+          }
+          .time {
+            margin-top: 41/2px;
+          }
+          .address {
+            margin-top: 25/2px;
+            padding-right: 10px;
+            line-height: 1.2;
+          }
+          .quota {
+            margin-top: 12px;
+          }
+          .period {
+            position: absolute;
+            right: 0;
+            bottom: 13px;
+            margin-top: 12px;
+            img {
+              width: 44px;
+            }
+          }
+        }
+      }
+    }
+    .am-list-footer {
+      margin-bottom: 120/2px;
+      padding: 10px;
+      // background: #fff;
+    }
+  }
+}
