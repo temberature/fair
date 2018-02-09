@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { ListView, Carousel } from "antd-mobile";
 import axios from "../utils/customAxios";
 import "./Home.less";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Moment from "moment";
 import Period from "../components/period/Period";
 import classNames from 'classnames/bind';

@@ -4,8 +4,6 @@ import { Button, List, InputItem, Toast, Modal } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./SignUp.less";
 import axios from "../utils/customAxios";
-import Countdown from "react-countdown-now";
-import Timer from "../components/timer/Timer";
 import jsSHA from "jssha";
 import WebConstants from "../web_constants";
 
