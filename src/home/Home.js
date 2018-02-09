@@ -1,7 +1,6 @@
 /* eslint no-dupe-keys: 0, no-mixed-operators: 0 */
 import React from "react";
-import ReactDOM from "react-dom";
-import { ListView, Carousel, Text } from "antd-mobile";
+import { ListView, Carousel } from "antd-mobile";
 import axios from "../utils/customAxios";
 import "./Home.less";
 import { Link } from "react-router-dom";
