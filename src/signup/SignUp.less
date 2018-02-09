@@ -13,12 +13,20 @@
       .am-input-control {
         font-size: 32/2px;
         input {
-          color: #d7d7d7;
+          color: #494949;
         }
       }
       .am-input-extra {
-        font-size: 26/2px;
-        color: #60b2e8;
+        .am-button {
+          height: 37/2px;
+          border: 0;
+          font-size: 26/2px;
+          color: #60b2e8;
+          line-height: 37/2px;
+          &::before {
+            display: none;
+          }
+        }
       }
     }
     .am-list-item:first-child {

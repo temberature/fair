@@ -1,32 +1,70 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, List, InputItem, Toast } from "antd-mobile";
+import { Button, List, InputItem, Toast, Modal } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./SignUp.less";
-import axios from "axios";
+import axios from "../utils/customAxios";
+import Countdown from "react-countdown-now";
+import Timer from "../components/timer/Timer";
+import jsSHA from "jssha";
+import WebConstants from "../web_constants";
+
 class SignIn extends React.Component {
   state = {
-    user_mobilephone_number: "",
-    code: 0,
-    password: "",
+    user_mobilephone_number: "15910707069",
+    code: 123456,
+    password: "qazwsx",
     hasPhoneError: false,
     hasCodeError: false,
-    hasPasswordError: false
+    hasPasswordError: false,
+    animating: false,
+    validationToken: "1111",
+    modal: false,
+    modalTip: ""
   };
-  signin = () => {
+  signup = () => {
+    this.setState({
+      animating: true
+    });
+    const shaObj = new jsSHA("SHA-256", "TEXT");
+    shaObj.update(this.state.password);
+    const encryptedPassword = shaObj.getHash("HEX");
     axios
-      .post(
-        "https://easy-mock.com/mock/5a3c67260df23b51b3614cfb/RegisterServlet?user_mobilephone_number=" +
-          this.state.user_mobilephone_number
-      )
+      .get("/RegisterServlet", {
+        params: {
+          user_mobilephone_number: this.state.user_mobilephone_number,
+          password: encryptedPassword,
+          validation_code: this.state.code,
+          validation_token: this.state.validationToken
+        }
+      })
       .then(response => {
+        this.setState({
+          animating: false
+        });
         console.log(response.data.retdesc);
-        if (response.data.registration_result) {
+        const json = response.data;
+        if (json.registration_result === WebConstants.SUCCESS) {
           Toast.info("注册成功～");
+        } else {
+          let modalTip = "注册失败";
+          // if (json.already_registered) {
+          //   modalTip += "该手机号已注册";
+          // }
+          // if (!json.valid_phonenumber) {
+          //   modalTip += "无效的手机号";
+          // }
+          // if (json.validation_code_valid && !json.validation_code_valid) {
+          //   modalTip += "无效的验证码";
+          // }
+          this.setState({
+            modal: true,
+            modalTip
+          });
         }
       });
   };
-  onErrorClick = (msg) => {
+  onErrorClick = msg => {
     Toast.info(msg);
   };
   onChange = user_mobilephone_number => {
@@ -68,8 +106,36 @@ class SignIn extends React.Component {
       });
     }
     this.setState({
-        code
+      code
     });
+  };
+  sendCode = () => {
+    this.setState({
+      animating: true
+    });
+    axios
+      .get("/GenerateValidationCodeServlet", {
+        params: {
+          user_mobilephone_number: this.state.user_mobilephone_number
+        }
+      })
+      .then(response => {
+        this.setState({
+          animating: false
+        });
+        console.log(response.data.retdesc);
+        if (response.data.validation_token) {
+          this.setState({
+            validationToken: response.data.validation_token
+          });
+          Toast.info("验证码发送成功～");
+        } else {
+          this.setState({
+            modal: true,
+            modalTip: '请重试'
+          });
+        }
+      });
   };
   render() {
     return (
@@ -79,7 +145,10 @@ class SignIn extends React.Component {
             type="phone"
             placeholder="手机号"
             error={this.state.hasPhoneError}
-            onErrorClick={this.onErrorClick.bind(this, "Please enter 11 digits")}
+            onErrorClick={this.onErrorClick.bind(
+              this,
+              "Please enter 11 digits"
+            )}
             onChange={this.onChange}
             value={this.state.user_mobilephone_number}
           />
@@ -90,7 +159,7 @@ class SignIn extends React.Component {
             onErrorClick={this.onErrorClick.bind(this, "Please enter 6 digits")}
             onChange={this.onCodeChange}
             value={this.state.code}
-            extra="获取验证码"
+            extra={<Button onClick={this.sendCode}>获取验证码</Button>}
           />
           <InputItem
             type="password"
@@ -102,7 +171,7 @@ class SignIn extends React.Component {
           />
         </List>
         <Button
-          onClick={this.signin}
+          onClick={this.signup}
           type="primary"
           className="signupBtn"
           size="large"
@@ -116,6 +185,24 @@ class SignIn extends React.Component {
         <div className="agreementsTip tip">
           点击“注册”按钮，即表示您同意<a href="">《服务与隐私协议》</a>
         </div>
+        <Modal
+          visible={this.state.modal}
+          transparent
+          maskClosable={false}
+          title="温馨提示"
+          footer={[
+            {
+              text: "确认",
+              onPress: () => {
+                this.setState({
+                  modal: false
+                });
+              }
+            }
+          ]}
+        >
+          {this.state.modalTip}
+        </Modal>
       </div>
     );
   }

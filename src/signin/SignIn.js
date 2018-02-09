@@ -15,27 +15,30 @@ class SignIn extends React.Component {
     hasPasswordError: false,
     animating: false
   };
-  componentDidMount () {
-    window.scrollTo(0, 0)
+  componentDidMount() {
+    window.scrollTo(0, 0);
   }
   signin = () => {
     this.setState({
       animating: true
-    })
+    });
     const shaObj = new jsSHA("SHA-256", "TEXT");
     shaObj.update(this.state.password);
     const encryptedPassword = shaObj.getHash("HEX");
     axios
-      .post(
-        "/LoginServlet?user_mobilephone_number=" +
-          this.state.user_mobilephone_number.replace(/\s/g, "") +
-          "&password=" +
-          encryptedPassword
-      )
+      .post("/LoginServlet", {
+        params: {
+          user_mobilephone_number: this.state.user_mobilephone_number.replace(
+            /\s/g,
+            ""
+          ),
+          password: encryptedPassword
+        }
+      })
       .then(response => {
         this.setState({
           animating: false
-        })
+        });
         console.log(response.data.retdesc);
         const loginResult = response.data;
         if (loginResult.login_success) {

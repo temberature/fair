@@ -5,7 +5,7 @@ import WebConstants from "../web_constants";
 
 const Item = List.Item;
 
-class Profile extends React.Component {
+class Settings extends React.Component {
   componentDidMount() {
     document.title = "设置";
   }
@@ -36,4 +36,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+export default Settings;
