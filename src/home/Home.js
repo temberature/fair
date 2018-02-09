@@ -171,7 +171,7 @@ class Home extends React.Component {
       <div id="home">
         <Carousel autoplay={false} infinite selectedIndex={0}>
           {["banner1.png", "banner2.jpg", "banner3.jpg"].map(val => (
-            <a key={val} href="http://www.alipay.com">
+            <a key={val} href="/">
               <img
                 src={`http://www.boluomi.org/assets/images/${val}`}
                 alt=""
