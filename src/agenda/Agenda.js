@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, List, InputItem, Toast, Modal } from "antd-mobile";
+import {
+  Button,
+  List,
+  InputItem,
+  Toast,
+  Modal,
+  TextareaItem
+} from "antd-mobile";
 import { createForm } from "rc-form";
 import "./Agenda.less";
 import axios from "../utils/customAxios";
@@ -9,17 +16,30 @@ import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
-    user_mobilephone_number: "",
-    code: null,
-    password: null,
-    hasPhoneError: false,
-    hasCodeError: false,
-    hasPasswordError: false,
-    animating: false,
-    validationToken: "1111",
-    modal: false,
-    modalTip: ""
+    topics: [],
+    totalVoteNumber: 0
   };
+  componentDidMount() {
+    document.title = "OA学院";
+
+    axios
+      .get("/agenda/" + this.props.match.params.id, {
+        params: {
+          [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
+        }
+      })
+      .then(response => {
+        console.log(response);
+
+        this.setState(() => ({
+          topics: response.data.data.topics,
+          totalVoteNumber: response.data.data.totalVoteNumber
+        }));
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
   signup = () => {
     this.setState({
       animating: true
@@ -130,59 +150,42 @@ class SignIn extends React.Component {
         } else {
           this.setState({
             modal: true,
-            modalTip: '请重试'
+            modalTip: "请重试"
           });
         }
       });
   };
   render() {
+    const Item = List.Item;
+    const Brief = Item.Brief;
+
     return (
-      <div id="swarming">
+      <div id="agenda">
+        <h1>《失控》</h1>
         <List>
-          <InputItem
-            type="text"
-            placeholder="议题来源（必填）"
-            // error={this.state.hasPhoneError}
-            onErrorClick={this.onErrorClick.bind(
-              this,
-              "Please enter 11 digits"
-            )}
-            onChange={this.onChange}
-            value={this.state.user_mobilephone_number}
-            clear
-          />
-          <InputItem
-            type="text"
-            placeholder="议题"
-            error={this.state.hasCodeError}
-            onErrorClick={this.onErrorClick.bind(this, "Please enter 6 digits")}
-            onChange={this.onCodeChange}
-            value={this.state.code}
-          />
-          <InputItem
-            type="password"
-            placeholder="议题"
-            error={this.state.hasPasswordError}
-            onErrorClick={this.onErrorClick.bind(this, "Please enter 6~11 ")}
-            onChange={this.onPasswordChange}
-            value={this.state.password}
-          />
+          {this.state.topics.map(topic => {
+            return (
+              <Item key={topic.id}
+                extra={
+                  (topic.voted ? "✓ " : "") +
+                  topic.voteNumber +
+                  "票 " +
+                  Number(
+                    topic.voteNumber / this.state.totalVoteNumber * 100
+                  ).toFixed(1) +
+                  "%"
+                }
+                wrap
+              >
+                {topic.text}
+              </Item>
+            );
+          })}
+          <TextareaItem placeholder="新增议题" autoHeight clear />
         </List>
-        <Button
-          onClick={this.signup}
-          className="signupBtn"
-          size="small"
-          inline
-        >
-          添加选项
+        <Button onClick={this.signup} className="signupBtn" size="small" inline>
+          添加
         </Button>
-        <div className="tip">
-          已有账号？
-          <Link to="/signin">立即登录</Link>
-        </div>
-        <div className="agreementsTip tip">
-          点击“注册”按钮，即表示您同意<a href="">《服务与隐私协议》</a>
-        </div>
         <Modal
           visible={this.state.modal}
           transparent
