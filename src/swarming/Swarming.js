@@ -17,14 +17,7 @@ import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
-    user_mobilephone_number: "",
-    code: null,
-    password: null,
-    hasPhoneError: false,
-    hasCodeError: false,
-    hasPasswordError: false,
-    animating: false,
-    validationToken: "1111",
+    text: "",
     modal: false,
     modalTip: "",
     id: null
@@ -36,7 +29,7 @@ class SignIn extends React.Component {
 
     axios
       .post("/agenda", {
-        params: {}
+        text: this.state.text
       })
       .then(response => {
         this.setState({
@@ -59,18 +52,9 @@ class SignIn extends React.Component {
   onErrorClick = msg => {
     Toast.info(msg);
   };
-  onChange = user_mobilephone_number => {
-    if (user_mobilephone_number.replace(/\s/g, "").length < 11) {
-      this.setState({
-        hasPhoneError: true
-      });
-    } else {
-      this.setState({
-        hasPhoneError: false
-      });
-    }
+  onChange = text => {
     this.setState({
-      user_mobilephone_number
+      text: text
     });
   };
   onPasswordChange = password => {
@@ -133,7 +117,11 @@ class SignIn extends React.Component {
     return (
       <div id="swarming">
         <List>
-          <TextareaItem placeholder="议程主题（必填）" autoHeight />
+          <TextareaItem
+            onChange={this.onChange}
+            placeholder="议程主题（必填）"
+            autoHeight
+          />
         </List>
         <WhiteSpace />
         <Button onClick={this.main} className="mainBtn" type="primary">
@@ -157,7 +145,13 @@ class SignIn extends React.Component {
         >
           {this.state.modalTip}
         </Modal>
-        {this.state.id !== null ? <Redirect to={"/agenda/" + this.state.id + this.props.location.hash} /> : ""}
+        {this.state.id !== null ? (
+          <Redirect
+            to={"/agenda/" + this.state.id + this.props.location.hash}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

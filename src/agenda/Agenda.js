@@ -6,7 +6,8 @@ import {
   InputItem,
   Toast,
   Modal,
-  TextareaItem
+  TextareaItem,
+  SegmentedControl
 } from "antd-mobile";
 import { createForm } from "rc-form";
 import "./Agenda.less";
@@ -16,12 +17,17 @@ import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
+    text: '',
     topics: [],
-    totalVoteNumber: 0
+    totalVoteNumber: 0,
+    newTopic: ''
   };
   componentDidMount() {
     document.title = "OA学院";
 
+    this.get();
+  }
+  get = () => {
     axios
       .get("/agenda/" + this.props.match.params.id, {
         params: {
@@ -30,31 +36,25 @@ class SignIn extends React.Component {
       })
       .then(response => {
         console.log(response);
-
+        const json = response.data;
         this.setState(() => ({
-          topics: response.data.data.topics,
-          totalVoteNumber: response.data.data.totalVoteNumber
+          text: json.data.text,
+          topics: json.data.topics,
+          totalVoteNumber: json.data.totalVoteNumber
         }));
       })
       .catch(function(error) {
         console.log(error);
       });
-  }
-  signup = () => {
+  };
+  addTopic = () => {
     this.setState({
       animating: true
     });
-    const shaObj = new jsSHA("SHA-256", "TEXT");
-    shaObj.update(this.state.password);
-    const encryptedPassword = shaObj.getHash("HEX");
+
     axios
-      .get("/RegisterServlet", {
-        params: {
-          user_mobilephone_number: this.state.user_mobilephone_number,
-          password: encryptedPassword,
-          validation_code: this.state.code,
-          validation_token: this.state.validationToken
-        }
+      .post("/agenda/" + this.props.match.params.id, {
+        topic: this.state.newTopic
       })
       .then(response => {
         this.setState({
@@ -62,22 +62,16 @@ class SignIn extends React.Component {
         });
         console.log(response.data.retdesc);
         const json = response.data;
-        if (json.registration_result === WebConstants.SUCCESS) {
-          Toast.info("注册成功～");
+        if (+json.retcode === 200) {
+          Toast.info("添加成功～");
+          this.get();
+          this.setState({
+            newTopic: ''
+          })
         } else {
-          let modalTip = "注册失败";
-          // if (json.already_registered) {
-          //   modalTip += "该手机号已注册";
-          // }
-          // if (!json.valid_phonenumber) {
-          //   modalTip += "无效的手机号";
-          // }
-          // if (json.validation_code_valid && !json.validation_code_valid) {
-          //   modalTip += "无效的验证码";
-          // }
           this.setState({
             modal: true,
-            modalTip
+            modalTip: json.retdesc
           });
         }
       });
@@ -85,18 +79,9 @@ class SignIn extends React.Component {
   onErrorClick = msg => {
     Toast.info(msg);
   };
-  onChange = user_mobilephone_number => {
-    if (user_mobilephone_number.replace(/\s/g, "").length < 11) {
-      this.setState({
-        hasPhoneError: true
-      });
-    } else {
-      this.setState({
-        hasPhoneError: false
-      });
-    }
+  onChange = newTopic => {
     this.setState({
-      user_mobilephone_number
+      newTopic: newTopic
     });
   };
   onPasswordChange = password => {
@@ -113,40 +98,38 @@ class SignIn extends React.Component {
       password
     });
   };
-  onCodeChange = code => {
-    if (code.replace(/\s/g, "").length < 6) {
-      this.setState({
-        hasCodeError: true
-      });
-    } else {
-      this.setState({
-        hasCodeError: false
-      });
+  sort = (value) => {
+    console.log(value.nativeEvent.selectedSegmentIndex);
+    const orderIndex = value.nativeEvent.selectedSegmentIndex;
+    if (orderIndex === 1) {
+      this.setState((prevState) => {
+        return {
+          topics: prevState.topics.sort((a, b) => {
+            return a.voteNumber < b.voteNumber;
+          })
+        }
+      })
+    } else if (orderIndex === 0) {
+      this.get();
     }
-    this.setState({
-      code
-    });
+    
   };
-  sendCode = () => {
+  vote = id => {
     this.setState({
       animating: true
     });
     axios
-      .get("/GenerateValidationCodeServlet", {
-        params: {
-          user_mobilephone_number: this.state.user_mobilephone_number
-        }
+      .post("/topic/" + id, {
+        params: {}
       })
       .then(response => {
         this.setState({
           animating: false
         });
         console.log(response.data.retdesc);
-        if (response.data.validation_token) {
-          this.setState({
-            validationToken: response.data.validation_token
-          });
-          Toast.info("验证码发送成功～");
+        if (+response.data.retcode === 200) {
+          Toast.info("投票成功");
+          this.get();
         } else {
           this.setState({
             modal: true,
@@ -161,11 +144,14 @@ class SignIn extends React.Component {
 
     return (
       <div id="agenda">
-        <h1>《失控》</h1>
+        <h1>{this.state.text}</h1>
+        <SegmentedControl onChange={this.sort} values={['默认排序', '票数排序']} />
         <List>
           {this.state.topics.map(topic => {
             return (
-              <Item key={topic.id}
+              <Item
+                onClick={this.vote.bind(this, topic.id)}
+                key={topic.id}
                 extra={
                   (topic.voted ? "✓ " : "") +
                   topic.voteNumber +
@@ -181,9 +167,14 @@ class SignIn extends React.Component {
               </Item>
             );
           })}
-          <TextareaItem placeholder="新增议题" autoHeight clear />
+          <TextareaItem value={this.state.newTopic} onChange={this.onChange} placeholder="新增议题" autoHeight clear />
         </List>
-        <Button onClick={this.signup} className="signupBtn" size="small" inline>
+        <Button
+          onClick={this.addTopic}
+          className="signupBtn"
+          size="small"
+          inline
+        >
           添加
         </Button>
         <Modal
