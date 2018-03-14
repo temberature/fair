@@ -22,15 +22,15 @@ class Home extends React.Component {
     document.title = "共识学院";
 
     this.setState({ isLoading: true });
-    axios.get("/RetrieveEventServlet").then(response => {
+    axios.get("/courses").then(response => {
       this.setState({ isLoading: false });
       var ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
       });
       this.setState({
         dataSource: ds.cloneWithRows(
-          response.data.sort((a, b) => {
-            return a.course_id < b.course_id;
+          response.data.data.courses.sort((a, b) => {
+            return a.id < b.id;
           })
         )
       });
@@ -39,23 +39,23 @@ class Home extends React.Component {
   row(course) {
     return (
       <Link
-        to={"/course/" + course.course_id}
-        key={course.course_id}
+        to={"/course/" + course.id}
+        key={course.id}
         className="course"
       >
         <img
           className="cover"
           src={
-            "https://www.jieshu.mobi:8181" + course.event_frontcover_filepath
+           course.cover
           }
           alt=""
         />
         <div className="info">
-          <div className="name">{course.title}</div>
+          <div className="name">{course.name}</div>
           <div className="time">
             <label htmlFor="">时间：</label>
-            {Moment(course.event_start_date).format("YYYY/MM/DD")} ～{" "}
-            {Moment(course.event_end_date).format("YYYY/MM/DD")}
+            {Moment(course.startDate).format("YYYY/MM/DD")} ～{" "}
+            {Moment(course.endDate).format("YYYY/MM/DD")}
           </div>
           <div className="address">
             <label htmlFor="">地点：</label>
@@ -63,7 +63,7 @@ class Home extends React.Component {
           </div>
           <div className="quota">
             <label htmlFor="">人数：</label>
-            限{course.max_attendence}人
+            限{course.quota}人
           </div>
           <div className="period">
             <Period
