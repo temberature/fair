@@ -14,6 +14,8 @@ import About from "./about/About";
 import Invitation from "./invitation/Invitation";
 import Settings from "./settings/Settings";
 import ScrollToTop from "./components/ScrollToTop";
+import Swarming from "./swarming/Swarming";
+import Agenda from "./agenda/Agenda";
 
 class App extends React.Component {
   render() {
@@ -24,9 +26,12 @@ class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route path="/profile" component={Profile} />
             <Route exact path="/course/:id" component={Course} />
+            <Route path="/swarming" component={Swarming} />
+            <Route path="/agenda/:id" component={Agenda} />
             <Route exact path="/course/:id/entryForm" component={EntryForm} />
             <Route exact path="/" component={TabBar} />
             <Route path="/profile" component={TabBar} />
+            <Route path="/swarming" component={TabBar} />
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
             <Route path="/me/courses" component={MyCourses} />

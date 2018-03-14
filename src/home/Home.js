@@ -19,7 +19,7 @@ class Home extends React.Component {
     };
   }
   componentDidMount() {
-    document.title = "OA学院";
+    document.title = "共识学院";
 
     this.setState({ isLoading: true });
     axios.get("/RetrieveEventServlet").then(response => {

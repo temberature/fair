@@ -10,7 +10,13 @@ class OATabBar extends React.Component {
           <div className="oa-tab-item-icon">
             <OAIcon type={require("./assets/icon_home.svg")} />
           </div>
-          <div className="oa-tab-item-label"> OA学院</div>
+          <div className="oa-tab-item-label"> 共识学院</div>
+        </NavLink>
+        <NavLink exact to="/swarming" className="oa-tab-item">
+          <div className="oa-tab-item-icon">
+            <OAIcon type={require("./assets/icon_home.svg")} />
+          </div>
+          <div className="oa-tab-item-label"> 议程设置</div>
         </NavLink>
         <NavLink to="/profile" className="oa-tab-item">
           <div className="oa-tab-item-icon">
