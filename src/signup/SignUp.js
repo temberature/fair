@@ -9,7 +9,7 @@ import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
-    user_mobilephone_number: "15910707069",
+    username: "15910707069",
     code: 123456,
     password: "qazwsx",
     hasPhoneError: false,
@@ -24,17 +24,12 @@ class SignIn extends React.Component {
     this.setState({
       animating: true
     });
-    const shaObj = new jsSHA("SHA-256", "TEXT");
-    shaObj.update(this.state.password);
-    const encryptedPassword = shaObj.getHash("HEX");
+
     axios
-      .get("/RegisterServlet", {
-        params: {
-          user_mobilephone_number: this.state.user_mobilephone_number,
-          password: encryptedPassword,
-          validation_code: this.state.code,
-          validation_token: this.state.validationToken
-        }
+      .post("/users", {
+        username: this.state.username,
+        password: this.state.password,
+        type: 1
       })
       .then(response => {
         this.setState({
@@ -140,24 +135,15 @@ class SignIn extends React.Component {
       <div id="signup">
         <List>
           <InputItem
-            type="phone"
-            placeholder="手机号"
+            type="text"
+            placeholder="用户名"
             error={this.state.hasPhoneError}
             onErrorClick={this.onErrorClick.bind(
               this,
               "Please enter 11 digits"
             )}
             onChange={this.onChange}
-            value={this.state.user_mobilephone_number}
-          />
-          <InputItem
-            type="number"
-            placeholder="验证码"
-            error={this.state.hasCodeError}
-            onErrorClick={this.onErrorClick.bind(this, "Please enter 6 digits")}
-            onChange={this.onCodeChange}
-            value={this.state.code}
-            extra={<Button onClick={this.sendCode}>获取验证码</Button>}
+            value={this.state.username}
           />
           <InputItem
             type="password"

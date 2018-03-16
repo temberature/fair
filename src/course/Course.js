@@ -21,7 +21,7 @@ export default class Course extends React.Component {
     document.title = "OA学院";
 
     axios
-      .get("/RetrieveEventByEventIdServlet", {
+      .get("/courses/" + this.props.match.params.id, {
         params: {
           event_id: this.props.match.params.id,
           [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
@@ -88,8 +88,8 @@ export default class Course extends React.Component {
           <div
             style={{
               backgroundImage:
-                "url(https://www.jieshu.mobi:8181" +
-                course.event_frontcover_filepath +
+                "url(" +
+                course.cover +
                 ")"
             }}
             className="blurCover"
@@ -97,7 +97,7 @@ export default class Course extends React.Component {
           <img
             className="cover"
             src={
-              "https://www.jieshu.mobi:8181" + course.event_frontcover_filepath
+              course.cover
             }
             alt=""
           />
@@ -105,10 +105,10 @@ export default class Course extends React.Component {
 
         <div className="info">
           <div className="title">
-            <span className="name">{course.title}</span>
+            <span className="name">{course.name}</span>
           </div>
           <div className="deadline">
-            报名截止至：{Moment(course.event_start_date).format("YYYY/MM/DD")}
+            报名截止至：{Moment(course.startDate).format("YYYY/MM/DD")}
             <Period
               course={course}
               images={[
@@ -124,7 +124,7 @@ export default class Course extends React.Component {
                 "已报" +
                 course.enrolled_already +
                 "人/限制" +
-                course.max_attendence +
+                course.quota +
                 "人"
               }
             >

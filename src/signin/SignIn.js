@@ -9,8 +9,8 @@ import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
-    user_mobilephone_number: "15910707069",
-    password: "tember158569",
+    username: "15910707069",
+    password: "qazwsx",
     hasPhoneError: false,
     hasPasswordError: false,
     animating: false
@@ -22,30 +22,19 @@ class SignIn extends React.Component {
     this.setState({
       animating: true
     });
-    const shaObj = new jsSHA("SHA-256", "TEXT");
-    shaObj.update(this.state.password);
-    const encryptedPassword = shaObj.getHash("HEX");
+
     axios
-      .post("/LoginServlet", {
-        params: {
-          user_mobilephone_number: this.state.user_mobilephone_number.replace(
-            /\s/g,
-            ""
-          ),
-          password: encryptedPassword
-        }
+      .post("/users", {
+        username: this.state.username,
+        password: this.state.password,
+        type: 1
       })
       .then(response => {
         this.setState({
           animating: false
         });
-        console.log(response.data.retdesc);
-        const loginResult = response.data;
-        if (loginResult.login_success) {
-          sessionStorage.setItem(
-            WebConstants.TOKEN,
-            loginResult[WebConstants.TOKEN]
-          );
+        if (response.data.token) {
+          sessionStorage.setItem("token", response.data.token);
 
           Toast.success("登录成功", 1, () => {
             this.props.history.push("/");
@@ -96,7 +85,7 @@ class SignIn extends React.Component {
             error={this.state.hasError}
             onErrorClick={this.onErrorClick}
             onChange={this.onChange}
-            value={this.state.user_mobilephone_number}
+            value={this.state.username}
           />
           <InputItem
             type="password"

@@ -17,10 +17,10 @@ import WebConstants from "../web_constants";
 
 class SignIn extends React.Component {
   state = {
-    text: '',
+    text: "",
     topics: [],
     totalVoteNumber: 0,
-    newTopic: ''
+    newTopic: ""
   };
   componentDidMount() {
     document.title = "OA学院";
@@ -29,7 +29,7 @@ class SignIn extends React.Component {
   }
   get = () => {
     axios
-      .get("/agenda/" + this.props.match.params.id, {
+      .get("/agendas/" + this.props.match.params.id, {
         params: {
           [WebConstants.TOKEN]: sessionStorage.getItem(WebConstants.TOKEN)
         }
@@ -53,8 +53,9 @@ class SignIn extends React.Component {
     });
 
     axios
-      .post("/agenda/" + this.props.match.params.id, {
-        topic: this.state.newTopic
+      .post("/topics?token=" + sessionStorage.getItem("token"), {
+        agenda_id: this.props.match.params.id,
+        text: this.state.newTopic
       })
       .then(response => {
         this.setState({
@@ -66,8 +67,8 @@ class SignIn extends React.Component {
           Toast.info("添加成功～");
           this.get();
           this.setState({
-            newTopic: ''
-          })
+            newTopic: ""
+          });
         } else {
           this.setState({
             modal: true,
@@ -98,29 +99,28 @@ class SignIn extends React.Component {
       password
     });
   };
-  sort = (value) => {
+  sort = value => {
     console.log(value.nativeEvent.selectedSegmentIndex);
     const orderIndex = value.nativeEvent.selectedSegmentIndex;
     if (orderIndex === 1) {
-      this.setState((prevState) => {
+      this.setState(prevState => {
         return {
           topics: prevState.topics.sort((a, b) => {
             return a.voteNumber < b.voteNumber;
           })
-        }
-      })
+        };
+      });
     } else if (orderIndex === 0) {
       this.get();
     }
-    
   };
   vote = id => {
     this.setState({
       animating: true
     });
     axios
-      .post("/topic/" + id, {
-        params: {}
+      .post("/votes?token=" + sessionStorage.getItem("token"), {
+        topic_id: id
       })
       .then(response => {
         this.setState({
@@ -128,7 +128,12 @@ class SignIn extends React.Component {
         });
         console.log(response.data.retdesc);
         if (+response.data.retcode === 200) {
-          Toast.info("投票成功");
+          if (+response.data.data.voted === 0) {
+            Toast.info("取消成功");
+          } else if (+response.data.data.voted === 1) {
+            Toast.info("投票成功");
+          }
+          
           this.get();
         } else {
           this.setState({
@@ -145,7 +150,10 @@ class SignIn extends React.Component {
     return (
       <div id="agenda">
         <h1>{this.state.text}</h1>
-        <SegmentedControl onChange={this.sort} values={['默认排序', '票数排序']} />
+        <SegmentedControl
+          onChange={this.sort}
+          values={["默认排序", "票数排序"]}
+        />
         <List>
           {this.state.topics.map(topic => {
             return (
@@ -167,7 +175,13 @@ class SignIn extends React.Component {
               </Item>
             );
           })}
-          <TextareaItem value={this.state.newTopic} onChange={this.onChange} placeholder="新增议题" autoHeight clear />
+          <TextareaItem
+            value={this.state.newTopic}
+            onChange={this.onChange}
+            placeholder="新增议题"
+            autoHeight
+            clear
+          />
         </List>
         <Button
           onClick={this.addTopic}
